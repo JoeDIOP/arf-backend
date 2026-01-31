@@ -5,6 +5,7 @@ Django settings for arf_backend project.
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from corsheaders.defaults import default_headers
 
 load_dotenv()
 
@@ -21,17 +22,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'corsheaders',
+    'rest_framework',
     'adhesions',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -79,11 +80,17 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'content-type',
+]
+
 # CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
-    "https://arf-fandene.org",
+    "https://arf-fandene.netlify.app",
 ]
+CORS_ALLOW_CREDENTIALS = True
 
 # Email test (console)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
